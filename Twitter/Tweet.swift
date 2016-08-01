@@ -16,7 +16,8 @@ class Tweet: NSObject {
     var favoritesCount: Int = 0
     var profileImageUrl: NSURL?
     var user: User?
-    var id: NSNumber?
+    var idString: String?
+    
     
     init(dictionary: NSDictionary) {
         
@@ -24,9 +25,7 @@ class Tweet: NSObject {
         
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
         favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
-        
-        print(favoritesCount)
-        
+                
         //"created_at": "Fri Oct 19 15:51:49 +0000 2012",
         let createdAtString = dictionary["created_at"] as? String
         if let createdAtString = createdAtString {
@@ -40,14 +39,7 @@ class Tweet: NSObject {
             user = User(dictionary: userDictionary)
         }
         
-        id = dictionary["id"] as? NSNumber
-        
-//        let profileImageUrlString = dictionary["profile_image_url"] as? String
-//        if let profileImageUrlString = profileImageUrlString {
-//            profileImageUrl = NSURL(string: profileImageUrlString)
-//        }
-//        
-        
+        idString = dictionary["id_str"] as? String
         
     }
     
@@ -60,5 +52,6 @@ class Tweet: NSObject {
         }
         return tweets
     }
+    
     
 }

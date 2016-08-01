@@ -39,19 +39,25 @@ class HomeTimelineViewCell: UITableViewCell {
             
             if tweet.retweetCount > 0 {
                 self.retweetCountLabel.text = "\(self.tweet.retweetCount)"
+            } else {
+                self.retweetCountLabel.text = ""
             }
             
             if tweet.favoritesCount > 0 {
                 self.favoriteCountLabel.text = "\(self.tweet.favoritesCount)"
-            }            
+            } else {
+                self.favoriteCountLabel.text = ""
+            }
         }
     }
 
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-                        
+        
+        self.profileImageView.layer.cornerRadius = 3
+        self.profileImageView.clipsToBounds = true
+                                
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -28,17 +28,25 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         self.fetchTweets(refreshControl)
         
         refreshControl.addTarget(self, action: #selector(fetchTweets(_:)), forControlEvents: UIControlEvents.ValueChanged)
-        self.tweetTableView.insertSubview(refreshControl, atIndex: 0)        
+        self.tweetTableView.insertSubview(refreshControl, atIndex: 0)
+        
+        
+
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        imageView.contentMode = .ScaleAspectFit
+        let image = UIImage(named: "twitter-home.png")
+        imageView.image = image
+        navigationItem.titleView = imageView                
     }
     
     
     func fetchTweets(refreshControl: UIRefreshControl) {
         TwitterClient.sharedInstance.homeTimeline({ (tweets: [Tweet]) in
             self.tweets = tweets
-//                            for tweet in tweets {
-//                                print (tweet.favoritesCount)
-//                            }
-//            
+                            for tweet in tweets {
+                                print (tweet.idString)
+                            }
+//
             self.tweetTableView.reloadData()
             refreshControl.endRefreshing()
             
@@ -48,6 +56,13 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    @IBAction func onComposeAction(sender: AnyObject) {
+        
+        NSLog("Compose new tweet")
+        self.performSegueWithIdentifier("composeSegue", sender: nil)
+        
+        
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.tweets != nil {
@@ -56,6 +71,11 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         return 0
     }
     
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -77,15 +97,25 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         TwitterClient.sharedInstance.logout()
         
     }
+    
+    
+    
 
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
+     MARK: - Navigation
     */
+ 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "tweetDetail") {
+            let cell = sender as! HomeTimelineViewCell
+            let indexPath = tweetTableView.indexPathForCell(cell)
+            let tweet = tweets![indexPath!.row]
+        
+            let detailViewController = segue.destinationViewController as! TweetDetailViewController
+            detailViewController.tweet = tweet
+        }
+        
+    }
+    
 
 }
