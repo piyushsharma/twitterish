@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BDBOAuth1Manager
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        if User.currentUser != nil {
+            
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewControllerWithIdentifier("TweetsNavigationController")
+            window?.rootViewController = vc
+            
+        } else {
+            NSLog("No user present, need authorization")
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(User.userDidLogOutNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) in
+            
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateInitialViewController()
+            self.window?.rootViewController = vc
+            
+        }
+        
         // Override point for customization after application launch.
         return true
     }
@@ -41,6 +61,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        
+        TwitterClient.sharedInstance.handleOpenUrl(url)
+        return true
+    }
+    
 
 }
 
