@@ -59,11 +59,32 @@ class TweetDetailViewController: UIViewController {
         self.profileImageView.clipsToBounds = true
         
         navigationItem.title = "Tweet"
+        
+        
+        var tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(retweetImageTapped))
+        self.retweetImageView.userInteractionEnabled = true
+        self.retweetImageView.addGestureRecognizer(tapGestureRecognizer)
+        
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(favoriteImageTapped))
+        self.likeImageVIew.userInteractionEnabled = true
+        self.likeImageVIew.addGestureRecognizer(tapGestureRecognizer)
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func retweetImageTapped() {
+        print ("Test")
+        
+    }
+    
+    func favoriteImageTapped() {
+        
+        print ("Test2")
     }
     
 

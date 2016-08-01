@@ -81,6 +81,14 @@
 			name = ViewCells;
 			sourceTree = "<group>";
 		};
+		F03741001D4F509500B460BE /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				F03740FA1D4ECEF500B460BE /* TimeAgo.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		F03BC4CC1D49D15400CB48F5 = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +110,7 @@
 		F03BC4D71D49D15500CB48F5 /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				F03741001D4F509500B460BE /* Utility */,
 				F03740F71D4EA70B00B460BE /* ViewCells */,
 				F03BC5141D4B359600CB48F5 /* API */,
 				F03BC5131D4B356200CB48F5 /* ViewControllers */,
@@ -120,7 +129,6 @@
 			children = (
 				F03BC5151D4B35BD00CB48F5 /* User.swift */,
 				F03BC5171D4B35CA00CB48F5 /* Tweet.swift */,
-				F03740FA1D4ECEF500B460BE /* TimeAgo.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";

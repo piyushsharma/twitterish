@@ -89,9 +89,12 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         
         TwitterClient.sharedInstance.postTweet(params) { (tweet, error) in
             if (tweet != nil) {
-                print ("Posted")
-            } else {
                 
+                NSNotificationCenter.defaultCenter().postNotificationName(Tweet.userComposedNewTweet, object: nil)
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+            } else {
+                NSLog("error posting tweet: \(error)")
             }
         }
     }

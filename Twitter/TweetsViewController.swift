@@ -25,6 +25,10 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         self.tweetTableView.rowHeight = UITableViewAutomaticDimension
         self.tweetTableView.estimatedRowHeight = 120
         
+        NSNotificationCenter.defaultCenter().addObserverForName(Tweet.userComposedNewTweet, object: nil, queue: NSOperationQueue.mainQueue()) { (NSNotification) in
+            self.fetchTweets(refreshControl)
+        }
+        
         self.fetchTweets(refreshControl)
         
         refreshControl.addTarget(self, action: #selector(fetchTweets(_:)), forControlEvents: UIControlEvents.ValueChanged)
@@ -39,19 +43,20 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         navigationItem.titleView = imageView                
     }
     
-    
+        
     func fetchTweets(refreshControl: UIRefreshControl) {
         TwitterClient.sharedInstance.homeTimeline({ (tweets: [Tweet]) in
             self.tweets = tweets
-                            for tweet in tweets {
-                                print (tweet.idString)
-                            }
-//
+            
+//            for tweet in tweets {
+//                print (tweet.idString)
+//            }
+
             self.tweetTableView.reloadData()
             refreshControl.endRefreshing()
             
             }, failure: { (error: NSError) in
-                print(error.localizedDescription)
+                NSLog(error.localizedDescription)
         })
         
     }

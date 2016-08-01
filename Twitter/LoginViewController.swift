@@ -34,7 +34,7 @@ class LoginViewController: UIViewController {
             self.performSegueWithIdentifier("loginSegue", sender: nil)
             
         }) { (error: NSError) -> () in
-            print(error.localizedDescription)
+            NSLog(error.localizedDescription)
         }
     }
     

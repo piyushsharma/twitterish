@@ -57,8 +57,28 @@ class HomeTimelineViewCell: UITableViewCell {
         
         self.profileImageView.layer.cornerRadius = 3
         self.profileImageView.clipsToBounds = true
-                                
+        
+        var tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(retweetImageTapped))
+        self.retweetImageView.userInteractionEnabled = true
+        self.retweetImageView.addGestureRecognizer(tapGestureRecognizer)
+        
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(favoriteImageTapped))
+        self.favoriteImageView.userInteractionEnabled = true
+        self.favoriteImageView.addGestureRecognizer(tapGestureRecognizer)
     }
+    
+    
+    func retweetImageTapped() {
+        print ("Test")
+        
+    }
+    
+    func favoriteImageTapped() {
+        
+        print ("Test2")
+    }
+    
+    
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
