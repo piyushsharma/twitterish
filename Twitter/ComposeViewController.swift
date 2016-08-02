@@ -16,12 +16,20 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     
     var characterRemainingButtonLabel = UIBarButtonItem(title: "140", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
     
+    var defaulText = "What's happening?"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         composeTextView.delegate = self
         
-        composeTextView.text = "What's happening?"
+//        let defaults = NSUserDefaults.standardUserDefaults()
+//        let tweetData = defaults.objectForKey("replyToTweet") as? Tweet
+//        if let tweetData = tweetData {
+//            self.defaulText = (tweetData.user?.screenname)! as String
+//        }
+        
+        composeTextView.text = self.defaulText
         composeTextView.textColor = UIColor.lightGrayColor()
         
         composeTextView.becomeFirstResponder()
@@ -89,7 +97,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         
         TwitterClient.sharedInstance.postTweet(params) { (tweet, error) in
             if (tweet != nil) {
-                
+                                                
                 NSNotificationCenter.defaultCenter().postNotificationName(Tweet.userComposedNewTweet, object: nil)
                 self.dismissViewControllerAnimated(true, completion: nil)
                 
@@ -117,7 +125,8 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         if updatedText.isEmpty {
             
             self.characterRemainingButtonLabel.title = "\(maxCharacters)"
-            textView.text = "What's happening?"
+            
+            textView.text = self.defaulText
             textView.textColor = UIColor.lightGrayColor()
             
             textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)

@@ -17,6 +17,8 @@ class Tweet: NSObject {
     var profileImageUrl: NSURL?
     var user: User?
     var idString: String?
+    var favorited: Bool?
+    var retweeted: Bool?
     
     static let userComposedNewTweet = "userComposedNewTweet"
     
@@ -41,6 +43,9 @@ class Tweet: NSObject {
         }
         
         idString = dictionary["id_str"] as? String
+        
+        favorited = dictionary["favorited"] as? Bool
+        retweeted = dictionary["retweeted"] as? Bool
         
     }
     

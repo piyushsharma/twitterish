@@ -103,6 +103,39 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     
+    func postRetweet(tweetIdStr: String, params: NSDictionary, completion: (response: NSDictionary?, error: NSError?) -> ()) {
+        let url = "1.1/statuses/retweet/\(tweetIdStr).json"
+        
+        POST(url, parameters: params, progress: nil,
+             success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                
+                let responseDict = response as! NSDictionary
+                completion(response: responseDict, error: nil)
+                
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) in
+                
+                NSLog("error: \(error.localizedDescription)")
+                completion(response: nil, error: error)
+        })
+    }
+    
+    
+    func postLike(params: NSDictionary, completion: (response: NSDictionary?, error: NSError?) -> ()) {
+        
+        POST("1.1/favorites/create.json", parameters: params, progress: nil,
+             success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                
+                let responseDict = response as! NSDictionary
+                completion(response: responseDict, error: nil)
+                
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) in
+                
+                NSLog("error: \(error.localizedDescription)")
+                completion(response: nil, error: error)
+        })
+    }
+    
+    
     func login(success: () -> (), failure: (NSError) -> ()) {
         loginSuccess = success
         loginFailure = failure

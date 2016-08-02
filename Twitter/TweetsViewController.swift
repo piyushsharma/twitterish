@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, HomeTimelineViewCellDelegate, TweetDetailViewControllerDelegate {
 
     var tweets: [Tweet]!
     
@@ -63,7 +63,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBAction func onComposeAction(sender: AnyObject) {
         
-        NSLog("Compose new tweet")
+        NSLog("Compose new tweet")        
         self.performSegueWithIdentifier("composeSegue", sender: nil)
         
         
@@ -85,10 +85,13 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("HomeTimelineViewCell", forIndexPath: indexPath) as! HomeTimelineViewCell
+        cell.delegate = self
         cell.tweet = self.tweets[indexPath.row]
         cell.separatorInset = UIEdgeInsetsZero
         cell.layoutMargins = UIEdgeInsetsZero
+        
         return cell
+        
     }
     
 
@@ -103,9 +106,51 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    func cellRetweeted(cell: HomeTimelineViewCell, value: Bool, retweetCount: Int) {
+        let indexPath = self.tweetTableView.indexPathForCell(cell)
+        let tweet = self.tweets[indexPath!.row]
+        tweet.retweeted = value
+        tweet.retweetCount = retweetCount
+        self.tweets[indexPath!.row] = tweet
+        
+        tweetTableView.reloadData()
+    }
     
     
+    func cellFavorited(cell: HomeTimelineViewCell, value: Bool, favoriteCount: Int) {
+        let indexPath = self.tweetTableView.indexPathForCell(cell)
+        let tweet = self.tweets[indexPath!.row]
+        tweet.favorited = value
+        tweet.favoritesCount = favoriteCount
+        self.tweets[indexPath!.row] = tweet
+        
+        tweetTableView.reloadData()
+    }
+    
+    
+    func cellReplied(cell: HomeTimelineViewCell, tweet: Tweet, value: Bool) {
+//        let defaults = NSUserDefaults.standardUserDefaults()
+//        defaults.setObject(tweet, forKey: "replyToTweet")
+        
+        self.performSegueWithIdentifier("composeSegue", sender: nil)
+    }
+    
+    func detailViewRetweeted(tweetDetailController: TweetDetailViewController, value: Bool, retweetCount: Int) {
+        tweetDetailController.tweet.retweeted = value
+        tweetDetailController.tweet.retweetCount = retweetCount
+        tweetDetailController.viewDidLoad()
+        tweetTableView.reloadData()
+    }
+    
+    
+    func detailViewLiked(tweetDetailController: TweetDetailViewController, value: Bool, favoriteCount: Int) {
+        tweetDetailController.tweet.favorited = value
+        tweetDetailController.tweet.favoritesCount = favoriteCount
+        tweetDetailController.viewDidLoad()
+        tweetTableView.reloadData()
+    }
 
+    
     /*
      MARK: - Navigation
     */
@@ -117,6 +162,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             let tweet = tweets![indexPath!.row]
         
             let detailViewController = segue.destinationViewController as! TweetDetailViewController
+            detailViewController.delegate = self
             detailViewController.tweet = tweet
         }
         

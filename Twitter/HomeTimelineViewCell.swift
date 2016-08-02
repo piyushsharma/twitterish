@@ -8,6 +8,12 @@
 
 import UIKit
 
+@objc protocol HomeTimelineViewCellDelegate {
+    optional func cellRetweeted(cell: HomeTimelineViewCell, value: Bool, retweetCount: Int)
+    optional func cellFavorited(cell: HomeTimelineViewCell, value: Bool, favoriteCount: Int)
+    optional func cellReplied(cell: HomeTimelineViewCell, tweet: Tweet, value: Bool)
+}
+
 class HomeTimelineViewCell: UITableViewCell {
 
     
@@ -23,6 +29,8 @@ class HomeTimelineViewCell: UITableViewCell {
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteImageView: UIImageView!
     @IBOutlet weak var favoriteCountLabel: UILabel!
+    
+    weak var delegate: HomeTimelineViewCellDelegate?
     
     var tweet: Tweet! {
         didSet {
@@ -48,6 +56,18 @@ class HomeTimelineViewCell: UITableViewCell {
             } else {
                 self.favoriteCountLabel.text = ""
             }
+            
+            if (tweet.favorited != nil && tweet.favorited!) {
+                favoriteImageView.image = UIImage(named: "like-action-on.png")
+            } else {
+                favoriteImageView.image = UIImage(named: "like-action.png")
+            }
+            
+            if (tweet.retweeted != nil && tweet.retweeted!) {
+                retweetImageView.image = UIImage(named: "retweet-action-on.png")
+            } else {
+                retweetImageView.image = UIImage(named: "retweet-action.png")
+            }
         }
     }
 
@@ -65,19 +85,80 @@ class HomeTimelineViewCell: UITableViewCell {
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(favoriteImageTapped))
         self.favoriteImageView.userInteractionEnabled = true
         self.favoriteImageView.addGestureRecognizer(tapGestureRecognizer)
+        
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(replyImageTapped))
+        self.replyImageView.userInteractionEnabled = true
+        self.replyImageView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    
+    func replyImageTapped() {
+        NSLog("Reply to a tweet")
+        delegate?.cellReplied?(self, tweet: self.tweet, value: true)
     }
     
     
     func retweetImageTapped() {
-        print ("Test")
+        NSLog("User tapped for retweet")
         
+        let params = [ "id": "\(self.tweet.idString)"]
+        TwitterClient.sharedInstance.postRetweet(self.tweet.idString!, params: params) { (responseDict, error) in
+            if (responseDict != nil) {
+                
+                NSLog("Retweet posted!")
+                self.viewDidRetweet()
+                
+            } else {
+                NSLog("error retweeting: \(error)")
+            }
+
+        }
     }
     
+    
+    func viewDidRetweet() {
+        
+//        self.retweetImageView.image = UIImage(named: "retweet-action-on.png")
+        var retweetCount = Int(self.retweetCountLabel.text!)
+        if (retweetCount != nil) {
+            retweetCount = retweetCount! + 1
+        }
+//        let retweetCountString = "\(retweetCount!)"
+//        self.retweetCountLabel.text = retweetCountString
+        
+        delegate?.cellRetweeted?(self, value: true, retweetCount: retweetCount!)
+    }
+    
+    
+
     func favoriteImageTapped() {
-        
-        print ("Test2")
+        let tweetId = self.tweet.idString
+        let params = [ "id": "\(tweetId!)" ]
+        TwitterClient.sharedInstance.postLike(params) { (responseDict, error) in
+            if (responseDict != nil) {
+                
+                NSLog("Like posted!")
+                self.viewDidLike()
+                
+            } else {
+                NSLog("error posting like: \(error)")
+            }
+        }
     }
     
+    func viewDidLike() {
+        
+//        self.favoriteImageView.image = UIImage(named: "like-action-on.png")
+        var likeCount = Int(self.favoriteCountLabel.text!)
+        if (likeCount != nil) {
+            likeCount = likeCount! + 1
+        }
+//        let likeCountString = "\(likeCount!)"
+//        print (likeCountString)
+//        self.favoriteCountLabel.text = likeCountString
+        
+        delegate?.cellFavorited?(self, value: true, favoriteCount: likeCount!)
+    }
     
 
     override func setSelected(selected: Bool, animated: Bool) {

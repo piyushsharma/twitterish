@@ -8,6 +8,12 @@
 
 import UIKit
 
+@objc protocol TweetDetailViewControllerDelegate {
+    optional func detailViewRetweeted(tweetDetailController: TweetDetailViewController, value: Bool, retweetCount: Int)
+    optional func detailViewLiked(tweetDetailController: TweetDetailViewController, value: Bool, favoriteCount: Int)
+}
+
+
 class TweetDetailViewController: UIViewController {
 
     
@@ -27,6 +33,8 @@ class TweetDetailViewController: UIViewController {
     @IBOutlet weak var likeImageVIew: UIImageView!
     
     var tweet: Tweet!
+    
+    weak var delegate: TweetDetailViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,9 +58,21 @@ class TweetDetailViewController: UIViewController {
         
         self.tweetTextLabel.text = self.tweet.text as? String
         
-        
         self.retweetCountLabel.text = "\(self.tweet.retweetCount)"
         self.likesCountLabel.text = "\(self.tweet.favoritesCount)"
+        
+        
+        if (tweet.favorited != nil && tweet.favorited!) {
+            likeImageVIew.image = UIImage(named: "like-action-on.png")
+        } else {
+            likeImageVIew.image = UIImage(named: "like-action.png")
+        }
+        
+        if (tweet.retweeted != nil && tweet.retweeted!) {
+            retweetImageView.image = UIImage(named: "retweet-action-on.png")
+        } else {
+            retweetImageView.image = UIImage(named: "retweet-action.png")
+        }
         
         
         self.profileImageView.layer.cornerRadius = 3
@@ -78,16 +98,57 @@ class TweetDetailViewController: UIViewController {
     
     
     func retweetImageTapped() {
-        print ("Test")
+        NSLog("User tapped for retweet")
         
+        let params = [ "id": "\(self.tweet.idString)"]
+        TwitterClient.sharedInstance.postRetweet(self.tweet.idString!, params: params) { (responseDict, error) in
+            if (responseDict != nil) {
+                
+                NSLog("Retweet posted!")
+                self.viewDidRetweet()
+                
+            } else {
+                NSLog("error retweeting: \(error)")
+            }
+            
+        }
     }
+    
+    
+    func viewDidRetweet() {
+        
+        var retweetCount = Int(self.retweetCountLabel.text!)
+        if (retweetCount != nil) {
+            retweetCount = retweetCount! + 1
+        }
+        delegate?.detailViewRetweeted?(self, value: true, retweetCount: retweetCount!)
+    }
+    
     
     func favoriteImageTapped() {
-        
-        print ("Test2")
+        let tweetId = self.tweet.idString
+        let params = [ "id": "\(tweetId!)" ]
+        TwitterClient.sharedInstance.postLike(params) { (responseDict, error) in
+            if (responseDict != nil) {
+                
+                NSLog("Like posted!")
+                self.viewDidLike()
+                
+            } else {
+                NSLog("error posting like: \(error)")
+            }
+        }
     }
     
-
+    func viewDidLike() {
+        
+        var likeCount = Int(self.likesCountLabel.text!)
+        if (likeCount != nil) {
+            likeCount = likeCount! + 1
+        }
+        delegate?.detailViewLiked?(self, value: true, favoriteCount: likeCount!)
+    }
+    
     /*
     // MARK: - Navigation
 
