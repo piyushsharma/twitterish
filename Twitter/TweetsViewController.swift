@@ -49,7 +49,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             self.tweets = tweets
             
 //            for tweet in tweets {
-//                print (tweet.idString)
+//                print (tweet.createdAt)
 //            }
 
             self.tweetTableView.reloadData()

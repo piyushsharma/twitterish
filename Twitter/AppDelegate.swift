@@ -20,8 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if User.currentUser != nil {
             
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewControllerWithIdentifier("TweetsNavigationController")
-            window?.rootViewController = vc
+            let hamburgerViewController = storyBoard.instantiateViewControllerWithIdentifier("HamburgerViewControllerIdentifier") as! HamburgerViewController
+            let menuViewController = storyBoard.instantiateViewControllerWithIdentifier("MenuViewControllerId") as! MenuViewController
+            
+            // The order here matters as the view inside menu has to be initialized before  
+            menuViewController.hamburgerViewController = hamburgerViewController
+            hamburgerViewController.menuViewController = menuViewController
+                        
+            window?.rootViewController = hamburgerViewController
             
         } else {
             NSLog("No user present, need authorization")

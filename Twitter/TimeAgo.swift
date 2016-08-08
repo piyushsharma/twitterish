@@ -15,11 +15,12 @@ class TimeAgo: NSObject {
         
         let calendar = NSCalendar.currentCalendar()
         let now = NSDate()
-        let unitFlags: NSCalendarUnit = [.Second, .Minute, .Hour, .Day, .WeekOfYear, .Month, .Year]
-        let components = calendar.components(unitFlags, fromDate: date, toDate: now, options: [])
+        let unitFlags: NSCalendarUnit = [.Minute, .Hour, .Day, .WeekOfYear, .Month, .Year, .Second]
+        let components = calendar.components(unitFlags, fromDate: date, toDate: now, options: NSCalendarOptions())
         
-        if components.day >= 3 {
-            return "\(components.month)/\(components.day)/\(components.year)"
+        if components.year > 0 || components.month > 0 || components.weekOfYear > 0 || components.day >= 3 {
+            let componentsOldTweet = NSCalendar.currentCalendar().components([.Day , .Month , .Year], fromDate: date)
+            return "\(componentsOldTweet.month)/\(componentsOldTweet.day)/\(componentsOldTweet.year%100)"
         }
         
         if components.day >= 2 {
