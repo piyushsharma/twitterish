@@ -14,20 +14,14 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var userInfo: NSDictionary!
     
+    var screenName: String!
+    
     @IBOutlet weak var profileTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let params = ["screen_name": "_psharma"]
-//        TwitterClient.sharedInstance.userDetail(params, success: { (userInfo: NSDictionary) in
-//            self.userInfo = userInfo
-//            print(self.userInfo)
-//            
-//            }, failure: { (error: NSError) in
-//                NSLog(error.localizedDescription)
-//        })
-//        
+
         let refreshControl = UIRefreshControl()
         
         self.profileTableView.delegate = self
@@ -61,8 +55,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     
     func fetchTweets(refreshControl: UIRefreshControl) {
-        
-        let params = ["screen_name": "_psharma"]
+        var params = NSDictionary()
+        if self.screenName != nil {
+            params = ["screen_name": self.screenName]
+        } else {
+            params = ["screen_name": "_psharma"]
+        }
         
         TwitterClient.sharedInstance.userDetail(params, success: { (userInfo: NSDictionary) in
                 self.userInfo = userInfo
@@ -90,25 +88,22 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 120.0
+        return 145.0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if self.userInfo != nil {
-            print (self.userInfo)
             
             let cell = tableView.dequeueReusableHeaderFooterViewWithIdentifier("HeaderCell") as! HeaderCell
             cell.userInfo = self.userInfo
-            print("TEST")
-            print (cell.userInfo)
             return cell
         }
         
-        let vw = UIView()
-        vw.backgroundColor = UIColor.whiteColor()
+        let vw = UITableViewHeaderFooterView()
+        vw.contentView.backgroundColor = UIColor.whiteColor()
         return vw
     }
-    
+
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.tweets != nil {
@@ -178,6 +173,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         profileTableView.reloadData()
     }
     
+    
+    
+    @IBAction func onCancelButton(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     
     /*
      MARK: - Navigation

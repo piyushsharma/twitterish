@@ -112,7 +112,7 @@ class TweetDetailViewController: UIViewController {
             }
             
         }
-    }
+    }            
     
     
     func viewDidRetweet() {

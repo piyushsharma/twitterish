@@ -12,6 +12,7 @@ import UIKit
     optional func cellRetweeted(cell: HomeTimelineViewCell, value: Bool, retweetCount: Int)
     optional func cellFavorited(cell: HomeTimelineViewCell, value: Bool, favoriteCount: Int)
     optional func cellReplied(cell: HomeTimelineViewCell, tweet: Tweet, value: Bool)
+    optional func cellShowProfileView(cell: HomeTimelineViewCell, tweet: Tweet, value: Bool)
 }
 
 class HomeTimelineViewCell: UITableViewCell {
@@ -89,6 +90,17 @@ class HomeTimelineViewCell: UITableViewCell {
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(replyImageTapped))
         self.replyImageView.userInteractionEnabled = true
         self.replyImageView.addGestureRecognizer(tapGestureRecognizer)
+        
+        
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped))
+        self.profileImageView.userInteractionEnabled = true
+        self.profileImageView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    
+    func profileImageViewTapped() {
+        NSLog("Show Profile view")
+        delegate?.cellShowProfileView?(self, tweet: self.tweet, value: true)
     }
     
     

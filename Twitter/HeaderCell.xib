@@ -62,6 +62,13 @@
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KGI-Sg-xTe">
+                        <rect key="frame" x="0.0" y="143" width="406" height="3"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="3" id="gKT-gs-XNJ"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="3Xr-cu-4JH" firstAttribute="leading" secondItem="lCE-Og-8vJ" secondAttribute="trailing" constant="4" id="10o-vl-U6k"/>
@@ -70,6 +77,7 @@
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="RwH-GS-hcl" secondAttribute="bottom" constant="12" id="1xm-Dk-8DH"/>
                     <constraint firstItem="lCE-Og-8vJ" firstAttribute="top" secondItem="0Tk-YA-Hma" secondAttribute="bottom" constant="10" id="5ou-3b-1kc"/>
                     <constraint firstItem="RwH-GS-hcl" firstAttribute="leading" secondItem="Wbk-wZ-uhc" secondAttribute="trailing" constant="4" id="9xH-Tu-xFf"/>
+                    <constraint firstItem="KGI-Sg-xTe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="FCl-8b-uDe"/>
                     <constraint firstItem="0Tk-YA-Hma" firstAttribute="top" secondItem="TMI-Mx-5yb" secondAttribute="bottom" constant="4" id="Fdk-7n-loG"/>
                     <constraint firstItem="lCE-Og-8vJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="GAv-Wf-els"/>
                     <constraint firstItem="Wbk-wZ-uhc" firstAttribute="leading" secondItem="lCE-Og-8vJ" secondAttribute="trailing" constant="50" id="Hns-mz-OPz"/>
@@ -77,12 +85,15 @@
                     <constraint firstItem="Wbk-wZ-uhc" firstAttribute="centerY" secondItem="lCE-Og-8vJ" secondAttribute="centerY" id="Kf4-68-e2K"/>
                     <constraint firstItem="npx-c1-Dky" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Lpq-Vl-oju"/>
                     <constraint firstItem="TMI-Mx-5yb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="PqY-Pq-ojL"/>
+                    <constraint firstItem="KGI-Sg-xTe" firstAttribute="top" secondItem="Wbk-wZ-uhc" secondAttribute="bottom" constant="4" id="TzP-aD-ygD"/>
                     <constraint firstAttribute="trailing" secondItem="npx-c1-Dky" secondAttribute="trailing" constant="12" id="VTC-9Y-3rh"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="npx-c1-Dky" secondAttribute="bottom" constant="12" id="XF4-S2-VLI"/>
                     <constraint firstItem="npx-c1-Dky" firstAttribute="centerY" secondItem="u4E-H1-yua" secondAttribute="centerY" id="YCT-ck-P6U"/>
                     <constraint firstItem="3Xr-cu-4JH" firstAttribute="centerY" secondItem="lCE-Og-8vJ" secondAttribute="centerY" id="cBE-lH-eLS"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="lCE-Og-8vJ" secondAttribute="bottom" constant="12" id="ey9-XJ-kBr"/>
+                    <constraint firstAttribute="trailing" secondItem="KGI-Sg-xTe" secondAttribute="trailing" id="hTY-BZ-r1L"/>
                     <constraint firstItem="TMI-Mx-5yb" firstAttribute="top" secondItem="u4E-H1-yua" secondAttribute="bottom" constant="10" id="k2h-2r-M8Z"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="KGI-Sg-xTe" secondAttribute="bottom" constant="4" id="mnh-gm-ed6"/>
                     <constraint firstItem="u4E-H1-yua" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="nDP-ry-F98"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3Xr-cu-4JH" secondAttribute="bottom" constant="12" id="nVl-dt-jXV"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Wbk-wZ-uhc" secondAttribute="bottom" constant="12" id="o8r-ou-l1x"/>
@@ -97,6 +108,7 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="editProfileButton" destination="npx-c1-Dky" id="d5i-Rz-Ewa"/>
                 <outlet property="followersLabel" destination="RwH-GS-hcl" id="irH-FY-Ajd"/>
                 <outlet property="followingLabel" destination="3Xr-cu-4JH" id="nP6-qP-cHn"/>
                 <outlet property="handleLabel" destination="0Tk-YA-Hma" id="KdZ-Rq-5TK"/>

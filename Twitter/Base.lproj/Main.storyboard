@@ -192,7 +192,7 @@
                                             <outlet property="tStamp" destination="FfP-mZ-gxq" id="w5f-lJ-eIR"/>
                                             <outlet property="tweetText" destination="eaB-kf-Vjf" id="IFM-ec-w0U"/>
                                             <outlet property="twitterHandle" destination="eMv-TR-hsm" id="Y0t-p8-nOb"/>
-                                            <segue destination="75W-ss-6b8" kind="show" identifier="tweetDetail" id="cAD-Tk-Z94"/>
+                                            <segue destination="75W-ss-6b8" kind="show" identifier="tweetDetail" id="ek4-68-E78"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -230,6 +230,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="tweetTableView" destination="tp4-5b-SCw" id="XO9-sm-xWb"/>
+                        <segue destination="i1X-fe-Ffy" kind="presentation" identifier="profileViewSegue" id="DyT-TJ-uBy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N38-rT-yYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -248,12 +249,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="81" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="thf-px-P2p">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="81" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="thf-px-P2p">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="81" id="FGC-IF-swq" customClass="UserCell" customModule="Twitter" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="320" height="81"/>
+                                        <rect key="frame" x="0.0" y="113.5" width="320" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FGC-IF-swq" id="yjt-Ie-200">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80.5"/>
@@ -265,7 +266,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="V1q-0O-X3C"/>
+                    <navigationItem key="navigationItem" id="V1q-0O-X3C">
+                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="eTP-sb-33A">
+                            <connections>
+                                <action selector="onCancelButton:" destination="Dax-qi-nGa" id="nRC-lS-ycU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="profileTableView" destination="thf-px-P2p" id="kEy-L8-e9x"/>

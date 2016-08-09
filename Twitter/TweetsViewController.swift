@@ -11,6 +11,7 @@ import UIKit
 class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, HomeTimelineViewCellDelegate, TweetDetailViewControllerDelegate {
 
     var tweets: [Tweet]!
+    var userScreenName = User.currentUser?.screenname
     
     @IBOutlet weak var tweetTableView: UITableView!
     
@@ -33,9 +34,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         refreshControl.addTarget(self, action: #selector(fetchTweets(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tweetTableView.insertSubview(refreshControl, atIndex: 0)
-        
-        
-
+                
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         imageView.contentMode = .ScaleAspectFit
         let image = UIImage(named: "twitter-home.png")
@@ -89,9 +88,7 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         cell.tweet = self.tweets[indexPath.row]
         cell.separatorInset = UIEdgeInsetsZero
         cell.layoutMargins = UIEdgeInsetsZero
-        
         return cell
-        
     }
     
 
@@ -131,9 +128,17 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     func cellReplied(cell: HomeTimelineViewCell, tweet: Tweet, value: Bool) {
 //        let defaults = NSUserDefaults.standardUserDefaults()
 //        defaults.setObject(tweet, forKey: "replyToTweet")
-        
         self.performSegueWithIdentifier("composeSegue", sender: nil)
     }
+
+    
+    func cellShowProfileView(cell: HomeTimelineViewCell, tweet: Tweet, value: Bool) {
+        let indexPath = tweetTableView.indexPathForCell(cell)
+        let tweet = tweets![indexPath!.row]
+        self.userScreenName = tweet.user?.screenname
+        self.performSegueWithIdentifier("profileViewSegue", sender: nil)
+    }
+    
     
     func detailViewRetweeted(tweetDetailController: TweetDetailViewController, value: Bool, retweetCount: Int) {
         tweetDetailController.tweet.retweeted = value
@@ -149,14 +154,15 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         tweetDetailController.viewDidLoad()
         tweetTableView.reloadData()
     }
-
+    
     
     /*
      MARK: - Navigation
     */
  
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if (segue.identifier == "tweetDetail") {
+        
+       if (segue.identifier == "tweetDetail") {
             let cell = sender as! HomeTimelineViewCell
             let indexPath = tweetTableView.indexPathForCell(cell)
             let tweet = tweets![indexPath!.row]
@@ -166,6 +172,12 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
             detailViewController.tweet = tweet
         }
         
+        if (segue.identifier == "profileViewSegue") {            
+            let profileViewNC = segue.destinationViewController as! UINavigationController
+            let profileViewController = profileViewNC.viewControllers.first as! ProfileViewController
+            profileViewController.screenName = self.userScreenName as! String
+        }
+
     }
     
 

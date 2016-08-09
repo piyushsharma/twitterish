@@ -1,6 +1,6 @@
 # Project 4 - *Twitter*
 
-Time spent: **8** hours spent in total
+Time spent: **10** hours spent in total
 
 ## User Stories
 
@@ -12,9 +12,9 @@ The following **required** functionality is completed:
    - [X] The menu can look similar to the example or feel free to take liberty with the UI.
 - [X] Profile page
    - [X] Contains the user header view
-   - [ ] Contains a section with the users basic stats: # tweets, # following, # followers
-- [ ] Home Timeline
-   - [ ] Tapping on a user image should bring up that user's profile page
+   - [X] Contains a section with the users basic stats: # tweets, # following, # followers
+- [X] Home Timeline
+   - [X] Tapping on a user image should bring up that user's profile page
 
 The following **optional** features are implemented:
 
@@ -33,6 +33,7 @@ The following **optional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
+![App Usage](/demo/twitterRedux.gif?raw=true)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
